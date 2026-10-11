@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { ThemeProvider } from "@/components/theme-provider";
-import { Navbar } from "@/components/navbar";
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 
 import "./globals.css";
@@ -11,8 +11,12 @@ const geistSans = Geist({ subsets: ["latin"], variable: "--font-sans" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
-  title: "NextTickets",
-  description: "Sistema de tickets de soporte",
+  title: {
+    default: "NextTickets · Soporte",
+    template: "%s · NextTickets",
+  },
+  description:
+    "Sistema de tickets de soporte con roles, asignación, comentarios e historial.",
 };
 
 export default function RootLayout({
@@ -33,10 +37,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="mx-auto max-w-6xl px-4">
-            <Navbar />
-            {children}
-          </main>
+          {children}
+          <Toaster richColors closeButton />
         </ThemeProvider>
       </body>
     </html>
