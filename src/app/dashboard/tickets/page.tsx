@@ -34,6 +34,9 @@ export default async function TicketsPage({
   const params = await searchParams;
   const filters = parseSearchParams(ticketFiltersSchema, params);
   const staff = isStaff(user.role);
+  const filtered = Boolean(
+    filters.q || filters.status || filters.priority || filters.category || filters.assignee,
+  );
 
   const [{ tickets, total, page, pageCount }, staffMembers] = await Promise.all([
     getTicketsPage(user, filters),
@@ -66,11 +69,11 @@ export default async function TicketsPage({
       {tickets.length === 0 ? (
         <EmptyState
           icon={Inbox}
-          title={total === 0 && !filters.q ? "No hay tickets todavía" : "Sin resultados"}
+          title={filtered ? "Sin resultados" : "No hay tickets todavía"}
           description={
-            total === 0 && !filters.q
-              ? "Cuando se cree un ticket aparecerá aquí."
-              : "Prueba con otros filtros o limpia la búsqueda."
+            filtered
+              ? "Prueba con otros filtros o limpia la búsqueda."
+              : "Cuando se cree un ticket aparecerá aquí."
           }
           action={
             <Button asChild variant="outline" size="sm">
