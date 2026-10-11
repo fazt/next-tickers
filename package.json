@@ -11,10 +11,11 @@
     "postinstall": "prisma generate",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
+    "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:seed": "prisma db seed",
-    "db:reset": "prisma migrate reset",
+    "db:reset": "prisma migrate reset && prisma db seed",
     "db:studio": "prisma studio",
     "test:smoke": "node scripts/smoke-test.mjs"
   },
