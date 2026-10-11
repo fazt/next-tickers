@@ -105,6 +105,7 @@ export const ticketFiltersSchema = z.object({
   category: optionalEnum(TicketCategory),
   // "me", "none" o el id de un miembro del equipo.
   assignee: z.string().trim().max(40).optional().catch(undefined),
+  sort: z.enum(["updated", "created", "priority"]).catch("updated"),
   page,
 });
 
