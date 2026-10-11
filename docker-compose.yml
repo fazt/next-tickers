@@ -1,13 +1,22 @@
-version: '3.8'
 services:
   db:
-    image: postgres
-    restart: always
+    image: postgres:18-alpine
+    container_name: next-tickers-db
+    restart: unless-stopped
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: adminpassword
-      POSTGRES_DB: somedb
-    # volumes:
-    #   - ./data:/var/lib/postgresql/data
+      POSTGRES_USER: tickets
+      POSTGRES_PASSWORD: tickets
+      POSTGRES_DB: next_tickers
     ports:
-      - 5449:5432
+      - "5462:5432"
+    volumes:
+      # Postgres 18+ guarda los datos en /var/lib/postgresql/<versión>/docker
+      - next-tickers-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tickets -d next_tickers"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  next-tickers-data:
